@@ -11,6 +11,7 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
     private Card[][] cards = new Card[4][4];
     int soccer = 0;
     JMenuItem newgame = new JMenuItem("新游戏");
+    JMenuItem pause = new JMenuItem("暂停");
     JMenuItem exit = new JMenuItem("退出");
     JMenuItem ophelp = new JMenuItem("操作帮助");
     JMenuItem winoption = new JMenuItem("获胜条件");
@@ -23,7 +24,7 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
         //在这个界面中添加内容
         init2JFrame();
 
-        //
+        //得分界面
         initImage();
 
         //让当前界面显示出来
@@ -96,6 +97,7 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
         }
     }
 
+    //随机出现数字
     private void createRnum() {
         int num=0;
         Random random = new Random();
@@ -190,6 +192,7 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
 
         newgame.setFont(font);
         exit.setFont(font);
+        pause.setFont(font);
         ophelp.setFont(font);
         winoption.setFont(font);
 
@@ -197,12 +200,14 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
         jMenuBar.add(function);
         jMenuBar.add(aboutus);
         game.add(newgame);
+        game.add(pause);
         game.add(exit);
         function.add(ophelp);
         function.add(winoption);
 
         //菜单事件监听
         newgame.addActionListener(this);
+        pause.addActionListener(this);
         exit.addActionListener(this);
         ophelp.addActionListener(this);
         winoption.addActionListener(this);
@@ -214,9 +219,9 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
     private void initImage(){
         getContentPane().removeAll();
         //得分
-        JLabel stepCount = new JLabel("得分：" + soccer);
-        stepCount.setBounds(50, 30, 100, 20);
-        this.getContentPane().add(stepCount);
+        JLabel soccerCount = new JLabel("得分：" + soccer);
+        soccerCount.setBounds(50, 30, 100, 20);
+        this.getContentPane().add(soccerCount);
         this.getContentPane().repaint();
     }
 
@@ -272,7 +277,6 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
         switch (key){
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                System.out.println("nihao");
                 moveCard(1);
                 break;
             case KeyEvent.VK_RIGHT:
@@ -311,6 +315,13 @@ public class GameJFrame extends JFrame implements KeyListener, MouseListener, Ac
         }else if (obj == winoption) {
             JOptionPane.showMessageDialog(null,"得到数字2048获得胜利",
                     "获胜条件",JOptionPane.INFORMATION_MESSAGE);
+        } else if (obj == pause) {
+            Object[] options={"退出","继续"};
+            int res =JOptionPane.showOptionDialog(this,"游戏暂停中,你可以点击继续游戏","",
+                    JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+            if (res == 0) {
+                System.exit(0);
+            }
         }
     }
 }
